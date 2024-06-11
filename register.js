@@ -1,22 +1,20 @@
-document.getElementById('register-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // 阻止表单默认提交行为
+document.getElementById('register-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const username = document.getElementById('register-username').value;
+    const password = document.getElementById('register-password').value;
 
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-
-    // 检查用户是否已存在
-    var users = JSON.parse(localStorage.getItem('users')) || [];
-    var userExists = users.some(function(user) {
-        return user.username === username;
+    const response = await fetch('http://localhost:3000/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
     });
 
-    if (userExists) {
-        alert('Username already exists!');
-    } else {
-        // 保存用户信息到localStorage
-        users.push({ username: username, password: password });
-        localStorage.setItem('users', JSON.stringify(users));
+    if (response.ok) {
         alert('Registration successful!');
-        window.location.href = 'login.html'; // 注册成功后跳转到登录页面
+        window.location.href = 'login.html';
+    } else {
+        alert('Username already exists!');
     }
 });
