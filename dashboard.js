@@ -1,12 +1,13 @@
-document.addEventListener('DOMContentLoaded', function () {
-    var loggedInUser = localStorage.getItem('loggedInUser');
+document.addEventListener('DOMContentLoaded', async function () {
+    const loggedInUser = localStorage.getItem('loggedInUser');
     if (!loggedInUser) {
         window.location.href = 'login.html';
     }
 
-    var isAdmin = loggedInUser === 'admin';
+    const isAdmin = loggedInUser === 'admin';
     if (isAdmin) {
         document.getElementById('view-users').style.display = 'inline';
+        loadUserList();
     }
 
     document.getElementById('logout').addEventListener('click', function () {
@@ -14,11 +15,20 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = 'login.html';
     });
 
-    document.getElementById('sign-in').addEventListener('click', function () {
-        var signInKey = 'signIn_' + loggedInUser;
-        var today = new Date().toISOString().split('T')[0];
-        localStorage.setItem(signInKey, today);
-        alert('Signed in successfully!');
+    document.getElementById('sign-in').addEventListener('click', async function () {
+        const response = await fetch('http://localhost:3000/sign-in', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: loggedInUser })
+        });
+
+        if (response.ok) {
+            alert('Signed in successfully!');
+        } else {
+            alert('Sign in failed.');
+        }
     });
 
     document.getElementById('create-content').addEventListener('click', function () {
@@ -43,12 +53,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('create-content-form').addEventListener('submit', function (event) {
         event.preventDefault();
-        var date = document.getElementById('content-date').value;
-        var text = document.getElementById('content-text').value;
-        var imageFile = document.getElementById('content-image').files[0];
-        var reader = new FileReader();
+        const date = document.getElementById('content-date').value;
+        const text = document.getElementById('content-text').value;
+        const imageFile = document.getElementById('content-image').files[0];
+        const reader = new FileReader();
         reader.onloadend = function () {
-            var imageData = reader.result;
+            const imageData = reader.result;
             saveContent(loggedInUser, date, text, imageData);
             alert('Content saved successfully!');
         };
@@ -61,24 +71,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function saveContent(username, date, text, imageData) {
-        var key = 'content_' + username + '_' + date;
-        var content = { text: text, image: imageData };
+        const key = 'content_' + username + '_' + date;
+        const content = { text: text, image: imageData };
         localStorage.setItem(key, JSON.stringify(content));
     }
 
     function loadContentList(username) {
-        var contentList = document.getElementById('content-list');
+        const contentList = document.getElementById('content-list');
         contentList.innerHTML = '';
-        for (var i = 0; i < localStorage.length; i++) {
-            var key = localStorage.key(i);
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
             if (key.startsWith('content_' + username)) {
-                var date = key.split('_')[2];
-                var listItem = document.createElement('li');
-                var link = document.createElement('a');
+                const date = key.split('_')[2];
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
                 link.href = '#';
                 link.innerText = date;
                 link.addEventListener('click', function (event) {
-                    var date = event.target.innerText;
+                    const date = event.target.innerText;
                     viewContent(username, date);
                 });
                 listItem.appendChild(link);
@@ -88,19 +98,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function viewContent(username, date) {
-        var key = 'content_' + username + '_' + date;
-        var content = JSON.parse(localStorage.getItem(key));
+        const key = 'content_' + username + '_' + date;
+        const content = JSON.parse(localStorage.getItem(key));
         if (content) {
-            var contentSection = document.getElementById('content');
+            const contentSection = document.getElementById('content');
             contentSection.innerHTML = '';
-            var heading = document.createElement('h2');
+            const heading = document.createElement('h2');
             heading.innerText = 'Content for ' + date;
             contentSection.appendChild(heading);
-            var paragraph = document.createElement('p');
+            const paragraph = document.createElement('p');
             paragraph.innerText = content.text;
             contentSection.appendChild(paragraph);
             if (content.image) {
-                var image = document.createElement('img');
+                const image = document.createElement('img');
                 image.src = content.image;
                 image.style.maxWidth = '400px';
                 contentSection.appendChild(image);
@@ -108,53 +118,49 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function loadUserList() {
-        var users = JSON.parse(localStorage.getItem('users')) || [];
-        var userList = document.getElementById('user-list');
+    async function loadUserList() {
+        const response = await fetch('http://localhost:3000/users');
+        const users = await response.json();
+        const userList = document.getElementById('user-list');
         userList.innerHTML = '';
         users.forEach(function (user) {
-            var username = user.username;
-            var userItem = document.createElement('li');
-            var userInfo = document.createElement('span');
-            var signInKey = 'signIn_' + username;
-            var signInDate = localStorage.getItem(signInKey) || 'Not signed in';
-            userInfo.innerText = username + ' - Signed in: ' + signInDate;
+            const username = user.username;
+            const userItem = document.createElement('li');
+            const userInfo = document.createElement('span');
+            const signInDates = user.signInDates.length > 0 ? user.signInDates.join(', ') : 'Not signed in';
+            userInfo.innerText = `${username} - Signed in: ${signInDates}`;
             userItem.appendChild(userInfo);
 
-            for (var i = 0; i < localStorage.length; i++) {
-                var key = localStorage.key(i);
-                if (key.startsWith('content_' + username)) {
-                    var date = key.split('_')[2];
-                    var dateLink = document.createElement('a');
-                    dateLink.href = '#';
-                    dateLink.innerText = date;
-                    dateLink.style.marginLeft = '10px';
-                    dateLink.addEventListener('click', function (event) {
-                        var date = event.target.innerText;
-                        viewOtherUserContent(username, date);
-                    });
-                    userItem.appendChild(dateLink);
-                }
-            }
+            user.signInDates.forEach(date => {
+                const dateLink = document.createElement('a');
+                dateLink.href = '#';
+                dateLink.innerText = date;
+                dateLink.style.marginLeft = '10px';
+                dateLink.addEventListener('click', function (event) {
+                    const date = event.target.innerText;
+                    viewOtherUserContent(username, date);
+                });
+                userItem.appendChild(dateLink);
+            });
 
             userList.appendChild(userItem);
         });
     }
 
     function viewOtherUserContent(username, date) {
-        var key = 'content_' + username + '_' + date;
-        var content = JSON.parse(localStorage.getItem(key));
+        const key = 'content_' + username + '_' + date;
+        const content = JSON.parse(localStorage.getItem(key));
         if (content) {
-            var contentSection = document.getElementById('content');
+            const contentSection = document.getElementById('content');
             contentSection.innerHTML = '';
-            var heading = document.createElement('h2');
-            heading.innerText = 'Content for ' + date + ' by ' + username;
+            const heading = document.createElement('h2');
+            heading.innerText = `Content for ${date} by ${username}`;
             contentSection.appendChild(heading);
-            var paragraph = document.createElement('p');
+            const paragraph = document.createElement('p');
             paragraph.innerText = content.text;
             contentSection.appendChild(paragraph);
             if (content.image) {
-                var image = document.createElement('img');
+                const image = document.createElement('img');
                 image.src = content.image;
                 image.style.maxWidth = '400px';
                 contentSection.appendChild(image);
