@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    background-image: url('background.jpg'); /* Ìæ»»ÎªÄãµÄ±³¾°Í¼Æ¬Â·¾¶ */
+    background-size: cover;
+}
+.background {
+    background-color: rgba(255, 255, 255, 0.8); /* Í¸Ã÷°×É«±³¾°²ã */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+h1 {
+    color: #333;
+}
+
+p {
+    color: #666;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+
+
+#auth-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+    #auth-container h2 {
+        color: #333;
+    }
+
+    #auth-container form {
+        display: flex;
+        flex-direction: column;
+    }
+
+        #auth-container form label,
+        #auth-container form input {
+            margin: 10px 0;
+        }
+
+        #auth-container form input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #auth-container form button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+            #auth-container form button:hover {
+                background-color: #0056b3;
+            }
+
+    #auth-container p {
+        margin-top: 20px;
+    }
+
+    #auth-container a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        #auth-container a:hover {
+            text-decoration: underline;
+        }
