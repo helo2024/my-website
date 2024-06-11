@@ -1,0 +1,230 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    background-image: url('background.jpg'); /* 替换为你的背景图片路径 */
+    background-size: cover;
+}
+
+.background {
+    background-color: rgba(255, 255, 255, 0.8); /* 透明白色背景层 */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+p {
+    color: #666;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+#auth-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+    #auth-container h2 {
+        color: #333;
+    }
+
+    #auth-container form {
+        display: flex;
+        flex-direction: column;
+    }
+
+        #auth-container form label,
+        #auth-container form input {
+            margin: 10px 0;
+        }
+
+        #auth-container form input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #auth-container form button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+            #auth-container form button:hover {
+                background-color: #0056b3;
+            }
+
+    #auth-container p {
+        margin-top: 20px;
+    }
+
+    #auth-container a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        #auth-container a:hover {
+            text-decoration: underline;
+        }
+
+header {
+    background-color: rgba(0, 0, 0, 0.7); /* 半透明的深色背景，使文字更易读 */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    max-width: 800px; /* 新增 */
+    margin: 20px auto; /* 居中对齐 */
+}
+
+    header h1 {
+        margin: 0 0 10px 0;
+        font-size: 24px;
+    }
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around; /* 项目均匀分布 */
+}
+
+    nav ul li {
+        display: inline;
+        margin: 0 10px;
+    }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+            nav ul li a:hover {
+                background-color: rgba(255, 255, 255, 0.3);
+                text-decoration: none;
+            }
+
+main {
+    padding: 20px;
+    max-width: 800px; /* 新增 */
+    margin: 0 auto; /* 居中对齐 */
+    background-color: rgba(255, 255, 255, 0.85); /* 半透明的白色背景，使文字更易读 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    main h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    main p {
+        font-size: 16px;
+        color: #333; /* 深色文字 */
+    }
+
+#content-section, #create-content-section, #view-content-section, #view-users-section {
+    margin-top: 20px;
+}
+
+#content-list, #user-list {
+    list-style: none;
+    padding: 0;
+}
+
+    #content-list li, #user-list li {
+        margin-bottom: 10px;
+    }
+
+#view-users-section a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* 新内容样式 */
+#auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+    #auth-container div {
+        background-color: rgba(255, 255, 255, 0.85); /* 半透明的白色背景，使文字更易读 */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 300px;
+        margin-bottom: 20px;
+    }
+
+#login-form, #register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+    #login-form label, #register-form label,
+    #login-form input, #register-form input,
+    #login-form button, #register-form button {
+        margin: 10px 0;
+    }
+
+    #login-form input, #register-form input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    #login-form button, #register-form button {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        #login-form button:hover, #register-form button:hover {
+            background-color: #0056b3;
+        }
+
+textarea {
+    resize: vertical; /* 允许垂直方向调整大小 */
+    min-height: 150px; /* 设置最小高度 */
+    max-height: 400px; /* 设置最大高度 */
+    overflow-y: auto; /* 允许垂直滚动 */
+}
+
+/* 新增样式 */
+.section-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
