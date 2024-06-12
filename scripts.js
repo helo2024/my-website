@@ -1,81 +1,10 @@
-//document.addEventListener('DOMContentLoaded', function () {
-//    var loginContainer = document.getElementById('login-container');
-//    var registerContainer = document.getElementById('register-container');
-//    var showRegister = document.getElementById('show-register');
-//    var showLogin = document.getElementById('show-login');
-
-//    showRegister.addEventListener('click', function (event) {
-//        event.preventDefault();
-//        loginContainer.style.display = 'none';
-//        registerContainer.style.display = 'block';
-//    });
-
-//    showLogin.addEventListener('click', function (event) {
-//        event.preventDefault();
-//        loginContainer.style.display = 'block';
-//        registerContainer.style.display = 'none';
-//    });
-
-//    document.getElementById('login-form').addEventListener('submit', function (event) {
-//        event.preventDefault(); // ×èÖ¹±íµ¥Ä¬ÈÏÌá½»ĞĞÎª
-
-//        var username = document.getElementById('login-username').value;
-//        var password = document.getElementById('login-password').value;
-
-//        // ¼ì²éÓÃ»§ĞÅÏ¢
-//        var users = JSON.parse(localStorage.getItem('users')) || [];
-//        var user = users.find(function (user) {
-//            return user.username === username && user.password === password;
-//        });
-
-//        if (username === 'admin' && password === 'admin123') {
-//            alert('Admin login successful!');
-//            // ÏÔÊ¾ËùÓĞ×¢²áÓÃ»§ĞÅÏ¢
-//            var userList = 'Registered Users:\n\n';
-//            users.forEach(function (user) {
-//                userList += 'Username: ' + user.username + '\n';
-//            });
-//            alert(userList);
-//        } else if (user) {
-//            alert('Login successful!');
-//        } else {
-//            alert('Invalid username or password.');
-//        }
-//    });
-
-//    document.getElementById('register-form').addEventListener('submit', function (event) {
-//        event.preventDefault(); // ×èÖ¹±íµ¥Ä¬ÈÏÌá½»ĞĞÎª
-
-//        var username = document.getElementById('register-username').value;
-//        var password = document.getElementById('register-password').value;
-
-//        // ¼ì²éÓÃ»§ÊÇ·ñÒÑ´æÔÚ
-//        var users = JSON.parse(localStorage.getItem('users')) || [];
-//        var userExists = users.some(function (user) {
-//            return user.username === username;
-//        });
-
-//        if (userExists) {
-//            alert('Username already exists!');
-//        } else {
-//            // ±£´æÓÃ»§ĞÅÏ¢µ½localStorage
-//            users.push({ username: username, password: password });
-//            localStorage.setItem('users', JSON.stringify(users));
-//            alert('Registration successful!');
-//            // ×¢²á³É¹¦ºóÏÔÊ¾µÇÂ¼±íµ¥
-//            loginContainer.style.display = 'block';
-//            registerContainer.style.display = 'none';
-//        }
-//    });
-//});
-
 document.addEventListener('DOMContentLoaded', function () {
     var loginContainer = document.getElementById('login-container');
     var registerContainer = document.getElementById('register-container');
     var showRegister = document.getElementById('show-register');
     var showLogin = document.getElementById('show-login');
 
-    // ¼ì²éÊÇ·ñÓĞÓÃ»§ÒÑµÇÂ¼£¬ÒÑµÇÂ¼µÄ»°Ö±½ÓÌø×ªµ½dashboard
+    // æ£€æŸ¥æ˜¯å¦æœ‰ç”¨æˆ·å·²ç™»å½•ï¼Œå·²ç™»å½•çš„è¯ç›´æ¥è·³è½¬åˆ°dashboard
     var loggedInUser = localStorage.getItem('loggedInUser');
     if (loggedInUser) {
         window.location.href = 'dashboard.html';
@@ -94,21 +23,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('login-form').addEventListener('submit', function (event) {
-        event.preventDefault(); // ×èÖ¹±íµ¥Ä¬ÈÏÌá½»ĞĞÎª
+        event.preventDefault(); // é˜»æ­¢è¡¨å•é»˜è®¤æäº¤è¡Œä¸º
 
         var username = document.getElementById('login-username').value;
         var password = document.getElementById('login-password').value;
 
-        // ¼ì²éÓÃ»§ĞÅÏ¢
+        // æ£€æŸ¥ç”¨æˆ·ä¿¡æ¯
         var users = JSON.parse(localStorage.getItem('users')) || [];
         var user = users.find(function (user) {
             return user.username === username && user.password === password;
         });
 
         if (username === 'admin' && password === 'admin123') {
-            localStorage.setItem('loggedInUser', 'admin'); // ±£´æµÇÂ¼ÓÃ»§ĞÅÏ¢
+            localStorage.setItem('loggedInUser', 'admin'); // ä¿å­˜ç™»å½•ç”¨æˆ·ä¿¡æ¯
             alert('Admin login successful!');
-            // ÏÔÊ¾ËùÓĞ×¢²áÓÃ»§ĞÅÏ¢
+            // æ˜¾ç¤ºæ‰€æœ‰æ³¨å†Œç”¨æˆ·ä¿¡æ¯
             var userList = 'Registered Users:\n\n';
             users.forEach(function (user) {
                 userList += 'Username: ' + user.username + '\n';
@@ -116,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert(userList);
             window.location.href = 'dashboard.html';
         } else if (user) {
-            localStorage.setItem('loggedInUser', username); // ±£´æµÇÂ¼ÓÃ»§ĞÅÏ¢
+            localStorage.setItem('loggedInUser', username); // ä¿å­˜ç™»å½•ç”¨æˆ·ä¿¡æ¯
             alert('Login successful!');
             window.location.href = 'dashboard.html';
         } else {
@@ -125,12 +54,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('register-form').addEventListener('submit', function (event) {
-        event.preventDefault(); // ×èÖ¹±íµ¥Ä¬ÈÏÌá½»ĞĞÎª
+        event.preventDefault(); // é˜»æ­¢è¡¨å•é»˜è®¤æäº¤è¡Œä¸º
 
         var username = document.getElementById('register-username').value;
         var password = document.getElementById('register-password').value;
 
-        // ¼ì²éÓÃ»§ÊÇ·ñÒÑ´æÔÚ
+        // æ£€æŸ¥ç”¨æˆ·æ˜¯å¦å·²å­˜åœ¨
         var users = JSON.parse(localStorage.getItem('users')) || [];
         var userExists = users.some(function (user) {
             return user.username === username;
@@ -139,11 +68,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (userExists) {
             alert('Username already exists!');
         } else {
-            // ±£´æÓÃ»§ĞÅÏ¢µ½localStorage
+            // ä¿å­˜ç”¨æˆ·ä¿¡æ¯åˆ°localStorage
             users.push({ username: username, password: password });
             localStorage.setItem('users', JSON.stringify(users));
             alert('Registration successful!');
-            // ×¢²á³É¹¦ºóÏÔÊ¾µÇÂ¼±íµ¥
+            // æ³¨å†ŒæˆåŠŸåæ˜¾ç¤ºç™»å½•è¡¨å•
             loginContainer.style.display = 'block';
             registerContainer.style.display = 'none';
         }
