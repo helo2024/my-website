@@ -1,9 +1,9 @@
-document.getElementById('register-form').addEventListener('submit', async function(event) {
+document.getElementById('login-form').addEventListener('submit', async function(event) {
     event.preventDefault();
-    const username = document.getElementById('register-username').value;
-    const password = document.getElementById('register-password').value;
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
 
-    const response = await fetch('http://localhost:3000/register', {
+    const response = await fetch('http://localhost:3000/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -12,9 +12,11 @@ document.getElementById('register-form').addEventListener('submit', async functi
     });
 
     if (response.ok) {
-        alert('Registration successful!');
-        window.location.href = 'login.html';
+        localStorage.setItem('loggedInUser', username);
+        alert('Login successful!');
+        window.location.href = 'dashboard.html';
     } else {
-        alert('Username already exists!');
+        const errorText = await response.text();
+        alert('Login failed: ' + errorText);
     }
 });
