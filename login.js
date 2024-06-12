@@ -1,4 +1,4 @@
-document.getElementById('login-form').addEventListener('submit', async function (event) {
+document.getElementById('login-form').addEventListener('submit', async function(event) {
     event.preventDefault();
     const username = document.getElementById('login-username').value;
     const password = document.getElementById('login-password').value;
@@ -16,6 +16,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
         alert('Login successful!');
         window.location.href = 'dashboard.html';
     } else {
-        alert('Invalid username or password.');
+        const errorText = await response.text();
+        alert('Login failed: ' + errorText);
     }
 });
