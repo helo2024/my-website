@@ -1,13 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-mongoose.connect('mongodb://localhost:27017/mydashboard');
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, '../public')));
+
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/mydashboard';
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const userSchema = new mongoose.Schema({
     username: String,
@@ -53,6 +58,11 @@ app.get('/users', async (req, res) => {
     res.status(200).send(users);
 });
 
-app.listen(3000, () => {
+// Serve the HTML files for the front-end
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+
+app.listen(process.env.PORT || 3000, () => {
     console.log('Server is running on port 3000');
 });
